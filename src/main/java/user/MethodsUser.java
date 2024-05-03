@@ -1,10 +1,12 @@
 package user;
 
 import io.qameta.allure.Step;
+import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.ValidatableResponse;
 
 import static constants.Endpoints.*;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
 
 public class MethodsUser extends BaseApplication {
 
@@ -18,11 +20,21 @@ public class MethodsUser extends BaseApplication {
     }
 
     @Step("удаление пользователя")
-    public ValidatableResponse userDelete(int userId) {
+    public ValidatableResponse userDelete(String accessToken) {
         return given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete(DELETE_USER + userId).then();
+                .header("authorization", accessToken)
+//                .and()
+//                .body(accessToken)
+//                .when()
+                .delete(DELETE_USER).then();
+    }
+
+    @Step("получения данных о пользователе")
+    public ValidatableResponse getUserInfo(String accessToken) {
+        return given()
+                .header("authorization",accessToken)
+//                .body("authorization"+accessToken)
+                .get(GET_USER_INFO).then();
     }
 
     @Step("Логин пользователя")
