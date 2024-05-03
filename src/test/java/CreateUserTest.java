@@ -15,7 +15,7 @@ public class CreateUserTest extends BaseTest {
 
     private final int random = 1 + (int) (Math.random() * 100000);
 
-    protected UserInfo userInfo = new UserInfo("Zabuhalov+" + random + "@yandex.ru", "123456", "Petrovich" + random);
+    protected UserInfo userInfo = new UserInfo("zabuhalov+" + random + "@yandex.ru", "123456", "petrovich" + random);
 
     protected MethodsUser methodsUser = new MethodsUser();
 
@@ -29,10 +29,11 @@ public class CreateUserTest extends BaseTest {
                 .statusCode(200)
                 .and().body("success", equalTo(USER_CREATE_SUCCESS_200))
                 .and().body("accessToken", is(notNullValue()))
-                .and().body("refreshToken", is(notNullValue()));
+                .and().body("refreshToken", is(notNullValue()))
+                .and().body("user.name", equalTo(userInfo.getName()))
+                .and().body("user.email", equalTo(userInfo.getEmail()));
 
-        LoginInfo loginInfo = LoginInfo.from(userInfo);
-        accessToken = methodsUser.userAuthorization(loginInfo).extract().path("accessToken");
+        accessToken = responseCreate.extract().path("accessToken");
     }
 
     @DisplayName("Создание пользователя без Email")
@@ -78,16 +79,13 @@ public class CreateUserTest extends BaseTest {
     @Description("Проверка получение ошибки при создании двух одинаковых пользователей")
     @Test
     public void failedCreatingTwoIdenticalCouriersTest() {
-        methodsUser.createUser(userInfo);
-
         ValidatableResponse responseCreate = methodsUser.createUser(userInfo);
 
-        LoginInfo loginInfo = LoginInfo.from(userInfo);
-
-        accessToken = methodsUser.userAuthorization(loginInfo).extract().path("accessToken");
-
-        responseCreate.assertThat()
+        ValidatableResponse responseCreateDouble = methodsUser.createUser(userInfo);
+        responseCreateDouble.assertThat()
                 .statusCode(403)
                 .and().body("message", equalTo(USER_CREATE_DOUBLE_403));
+
+        accessToken = responseCreate.extract().path("accessToken");
     }
 }
