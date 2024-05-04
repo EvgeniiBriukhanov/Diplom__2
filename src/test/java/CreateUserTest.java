@@ -2,7 +2,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Test;
-import user.LoginInfo;
 import user.MethodsUser;
 import user.UserInfo;
 
@@ -27,7 +26,7 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(200)
-                .and().body("success", equalTo(USER_CREATE_SUCCESS_200))
+                .and().body("success", equalTo(CREATE_USER_SUCCESS_200))
                 .and().body("accessToken", is(notNullValue()))
                 .and().body("refreshToken", is(notNullValue()))
                 .and().body("user.name", equalTo(userInfo.getName()))
@@ -45,8 +44,8 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(USER_CREATE_FAILED_403))
-                .and().body("message", equalTo(USER_CREATE_ONE_FIELD_EMPTY_403));
+                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
     @DisplayName("Создание пользователя без Password")
@@ -58,8 +57,8 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(USER_CREATE_FAILED_403))
-                .and().body("message", equalTo(USER_CREATE_ONE_FIELD_EMPTY_403));
+                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
     @DisplayName("Создание пользователя без Name")
@@ -71,8 +70,8 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(USER_CREATE_FAILED_403))
-                .and().body("message", equalTo(USER_CREATE_ONE_FIELD_EMPTY_403));
+                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
     @DisplayName("Создание двух одинаковых пользователей")
@@ -84,7 +83,7 @@ public class CreateUserTest extends BaseTest {
         ValidatableResponse responseCreateDouble = methodsUser.createUser(userInfo);
         responseCreateDouble.assertThat()
                 .statusCode(403)
-                .and().body("message", equalTo(USER_CREATE_DOUBLE_403));
+                .and().body("message", equalTo(CREATE_USER_DOUBLE_403));
 
         accessToken = responseCreate.extract().path("accessToken");
     }

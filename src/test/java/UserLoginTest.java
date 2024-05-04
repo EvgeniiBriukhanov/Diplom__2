@@ -26,13 +26,13 @@ public class UserLoginTest extends BaseTest {
         ValidatableResponse responseCreate = methodsUser.createUser(userInfo);
         responseCreate.assertThat()
                 .statusCode(200)
-                .and().body("success", equalTo(USER_CREATE_SUCCESS_200));
+                .and().body("success", equalTo(CREATE_USER_SUCCESS_200));
 
         LoginInfo loginInfo = LoginInfo.from(userInfo);
         ValidatableResponse userLogin = methodsUser.userAuthorization(loginInfo);
         userLogin.assertThat()
                 .statusCode(200)
-                .and().body("success", equalTo(LOGIN_SUCCESSFUL_200))
+                .and().body("success", equalTo(LOGIN_USER_SUCCESSFUL_200))
                 .and().body("accessToken", is(notNullValue()))
                 .and().body("refreshToken", is(notNullValue()))
                 .and().body("user.name", equalTo(userInfo.getName()))
@@ -52,8 +52,8 @@ public class UserLoginTest extends BaseTest {
         ValidatableResponse userLogin = methodsUser.userAuthorization(loginInfo);
         userLogin.assertThat()
                 .statusCode(401)
-                .and().body("success", equalTo(USER_LOGIN_FAILED_401))
-                .and().body("message", equalTo(USER_LOGIN_INCORRECT_DATA_401));
+                .and().body("success", equalTo(LOGIN_USER_FAILED_401))
+                .and().body("message", equalTo(LOGIN_USER_INCORRECT_DATA_401));
     }
 
     @DisplayName("Авторизация пользователя без Email")
@@ -66,8 +66,8 @@ public class UserLoginTest extends BaseTest {
         ValidatableResponse userLogin = methodsUser.userAuthorization(loginInfo);
         userLogin.assertThat()
                 .statusCode(401)
-                .and().body("success", equalTo(USER_LOGIN_FAILED_401))
-                .and().body("message", equalTo(USER_LOGIN_INCORRECT_DATA_401));
+                .and().body("success", equalTo(LOGIN_USER_FAILED_401))
+                .and().body("message", equalTo(LOGIN_USER_INCORRECT_DATA_401));
     }
 
     @DisplayName("Авторизация пользователя без Password")
@@ -80,7 +80,7 @@ public class UserLoginTest extends BaseTest {
         ValidatableResponse userLogin = methodsUser.userAuthorization(loginInfo);
         userLogin.assertThat()
                 .statusCode(401)
-                .and().body("success", equalTo(USER_LOGIN_FAILED_401))
-                .and().body("message", equalTo(USER_LOGIN_INCORRECT_DATA_401));
+                .and().body("success", equalTo(LOGIN_USER_FAILED_401))
+                .and().body("message", equalTo(LOGIN_USER_INCORRECT_DATA_401));
     }
 }

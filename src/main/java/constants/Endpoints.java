@@ -8,15 +8,17 @@ public class Endpoints {
 
     public final static String POST_USER_LOGIN = "/api/auth/login";
 
+    public final static String GET_USER_INFO = "/api/auth/user";
+
+    public final static String DELETE_USER = "/api/auth/user";
+
+    public final static String PATCH_UPDATE_USER_INFO = "/api/auth/user";
+
     public final static String POST_USER_LOGOUT = "/api/auth/logout";
 
     public final static String POST_USER_PASSWORD_RECOVERY_AND_RESET = "/api/password-reset";
 
     public final static String POST_USER_UPDATE_TOKEN = "/api/auth/token";
-
-    public final static String GET_USER_INFO = "/api/auth/user";
-
-    public final static String DELETE_USER = "/api/auth/user";
 
     public final static String GET_INGREDIENT_INFO = "/api/ingredients";
 

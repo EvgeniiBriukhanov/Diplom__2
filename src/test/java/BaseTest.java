@@ -20,7 +20,6 @@ public class BaseTest {
     @Step("Базовые тестовых данные")
     public void setUp() {
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-        RestAssured.baseURI = BASE_URL;
     }
 
     @After
@@ -33,9 +32,9 @@ public class BaseTest {
             ValidatableResponse responseDelete = methodsUser.userDelete(String.valueOf(accessToken));
             responseDelete.assertThat()
                     .statusCode(202)
-                    .body("success", equalTo(USER_DELETE_SUCCESS_202))
-                    .and().body("message", equalTo(USER_DELETE_202));
-            System.out.println(userName + " " + USER_DELETE_202);
+                    .body("success", equalTo(DELETE_USER_SUCCESS_202))
+                    .and().body("message", equalTo(DELETE_USER_202));
+            System.out.println(userName + " " + DELETE_USER_202);
         }
     }
 }
