@@ -22,7 +22,7 @@ public class MethodsUser extends BaseApplication {
         return given()
                 .spec(requestSpecification())
                 .header("authorization", accessToken)
-               .when()
+                .when()
                 .delete(DELETE_USER).then();
     }
 
@@ -30,7 +30,8 @@ public class MethodsUser extends BaseApplication {
     public ValidatableResponse getUserInfo(String accessToken) {
         return given()
                 .spec(requestSpecification())
-                .header("authorization",accessToken)
+                .header("authorization", accessToken)
+                .when()
                 .get(GET_USER_INFO).then();
     }
 
@@ -42,13 +43,14 @@ public class MethodsUser extends BaseApplication {
                 .when()
                 .post(POST_USER_LOGIN).then();
     }
-    @Step("Изменение данных пользователя")
-    public ValidatableResponse userChangeData(String accessToken,UserInfo userInfo) {
+
+    @Step("Изменение данных пользователя с токен")
+    public ValidatableResponse userChangeData(String accessToken, UserInfo userInfo) {
         return given()
                 .spec(requestSpecification())
-                .header("authorization",accessToken)
+                .header("authorization", accessToken)
                 .body(userInfo)
+                .when()
                 .patch(PATCH_UPDATE_USER_INFO).then();
     }
-
 }

@@ -1,22 +1,15 @@
+import BaseInfo.BaseForCreateAndLoginTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.Test;
-import user.MethodsUser;
-import user.UserInfo;
 
 import static constants.TextMessage.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
-public class CreateUserTest extends BaseTest {
-
-    private final int random = 1 + (int) (Math.random() * 100000);
-
-    protected UserInfo userInfo = new UserInfo("zabuhalov+" + random + "@yandex.ru", "123456", "petrovich" + random);
-
-    protected MethodsUser methodsUser = new MethodsUser();
+public class CreateUserTest extends BaseForCreateAndLoginTest {
 
     @DisplayName("Создание пользователя с валидными данными")
     @Description("Успешного создание пользователя")
@@ -26,7 +19,7 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(200)
-                .and().body("success", equalTo(CREATE_USER_SUCCESS_200))
+                .and().body("success", equalTo(CREATE_USER_SUCCESS))
                 .and().body("accessToken", is(notNullValue()))
                 .and().body("refreshToken", is(notNullValue()))
                 .and().body("user.name", equalTo(userInfo.getName()))
@@ -44,7 +37,7 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("success", equalTo(CREATE_USER_FAILED))
                 .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
@@ -57,7 +50,7 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("success", equalTo(CREATE_USER_FAILED))
                 .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
@@ -70,7 +63,7 @@ public class CreateUserTest extends BaseTest {
 
         responseCreate.assertThat()
                 .statusCode(403)
-                .and().body("success", equalTo(CREATE_USER_FAILED_403))
+                .and().body("success", equalTo(CREATE_USER_FAILED))
                 .and().body("message", equalTo(CREATE_USER_ONE_FIELD_EMPTY_403));
     }
 
